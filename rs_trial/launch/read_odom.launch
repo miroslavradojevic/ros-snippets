@@ -1,0 +1,5 @@
+<launch>
+<!-- <arg name="my_args"/> -->
+<!-- <param name="/read_odom_topic" type="string" value="$(arg my_args)"/> -->
+<node name="read_odom" pkg="rs_trial" type="read_odom.py" args="a b c"/>
+</launch>
