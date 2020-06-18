@@ -42,6 +42,7 @@ class image_converter:
             cv_image = cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB)
             cv2.imwrite(fname, cv_image)
         else:
+            # https://stackoverflow.com/questions/44606257/imwrite-16-bit-png-depth-image
             cv2.imwrite(fname, cv_image.astype(np.uint16)) # depth is 16 bit
         
         # cv2.imshow("Image window", cv_image)
