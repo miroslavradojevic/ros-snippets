@@ -1,8 +1,8 @@
 #!/usr/bin/env python
+# Hints at http://wiki.ros.org/cv_bridge/Tutorials/ConvertingBetweenROSImagesAndOpenCVImagesPython
 from __future__ import print_function
 
 import roslib
-# roslib.load_manifest('my_package')
 import sys
 import os
 import rospy
