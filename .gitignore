@@ -2,3 +2,5 @@
 A-LOAM/
 vision_opencv/
 CMakeLists.txt
+venv
+.idea
