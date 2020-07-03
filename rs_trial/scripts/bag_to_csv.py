@@ -1,9 +1,6 @@
-'''
-Saves each topic in a bagfile as a csv.
-
-Accepts a filename as an optional argument. Operates on all bagfiles in current directory if no argument provided
-
-'''
+#!/usr/bin/env python
+# Saves each topic in a bagfile as a csv.
+# Accepts a filename as an optional argument. Operates on all bagfiles in current directory if no argument provided
 
 import rosbag, sys, csv
 import time
