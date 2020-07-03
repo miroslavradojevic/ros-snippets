@@ -32,7 +32,7 @@ class ReadImage(object):
         try:
             # http://wiki.ros.org/cv_bridge/Tutorials/ConvertingBetweenROSImagesAndOpenCVImagesPython
             frame = self.bridge.imgmsg_to_cv2(img, desired_encoding="passthrough")
-            print(type(frame))
+
             frame1 = cv2.applyColorMap(cv2.convertScaleAbs(frame, alpha=0.05), cv2.COLORMAP_JET)
 
             if topLeft_clicked:
