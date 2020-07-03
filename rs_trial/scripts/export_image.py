@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # Hints at http://wiki.ros.org/cv_bridge/Tutorials/ConvertingBetweenROSImagesAndOpenCVImagesPython
-from __future__ import print_function
+# from __future__ import print_function
 
 import roslib
 import sys
@@ -25,7 +25,7 @@ class image_converter:
 
     def callback(self, data):
         fdir = str(data.header.stamp.to_sec())
-        fname = str(data.header.stamp.to_sec()) + self.image_sub.name.replace("/", "_") + ".png"
+        fname = str(data.header.stamp.to_sec()) + self.image_sub.name.replace("/", "_") + ".png" # todo - fix decimal number
         fname = os.path.join(fdir, fname) 
 
         if not os.path.exists(fdir):
