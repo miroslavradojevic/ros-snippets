@@ -4,3 +4,5 @@ vision_opencv/
 CMakeLists.txt
 venv
 .idea
+floam/
+loam_velodyne/
