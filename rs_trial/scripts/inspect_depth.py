@@ -104,11 +104,12 @@ if __name__ == '__main__':
         print("Invalid number of arguments.\nUsage: rosrun rs_trial inspect_depth.py /camera/aligned_depth_to_color/image_raw\n")
         sys.exit(1)
 
-    node_name = 'read_rgb'
-    rospy.init_node(node_name)
-    print("Starting up ROS node: " + node_name + "\n")
+    rospy.init_node('read_rgb', anonymous=True)
+
+    print("Starting up ROS node: read_rgb\n")
 
     ri = ReadImage(sys.argv[1])
+
     try:
         rospy.spin()
     except KeyboardInterrupt:
