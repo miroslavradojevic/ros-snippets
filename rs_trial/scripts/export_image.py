@@ -49,7 +49,7 @@ if __name__ == '__main__':
 
     if len(myargv) != 2:
         print(
-            "Invalid number of arguments.\nUsage: rosrun rs_trial inspect_depth.py /camera/aligned_depth_to_color/image_raw\n")
+            "Invalid number of arguments.\nUsage: rosrun rs_trial export_image.py /topic\n")
         sys.exit(1)
 
     rospy.init_node('export_image', anonymous=True)
