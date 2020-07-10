@@ -48,8 +48,8 @@ if __name__ == '__main__':
     myargv = rospy.myargv(argv=sys.argv)
 
     if len(myargv) != 2:
-        print(
-            "Invalid number of arguments.\nUsage: rosrun rs_trial export_image.py /topic\n")
+        print("Invalid number of arguments.\n" + 
+              "Usage: rosrun rs_trial export_image.py /topic\n")
         sys.exit(1)
 
     rospy.init_node('export_image', anonymous=True)

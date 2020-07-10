@@ -42,26 +42,32 @@ def callback_number(msg):
     rospy.loginfo(log_line)
 
 if __name__ == '__main__':
+    myargv = rospy.myargv(argv=sys.argv)
+
+    if len(myargv) != 2:
+        print("Invalid number of arguments.\n" +
+              "Usage: rosrun rs_trial read_odom.py /topic method\n")
+        sys.exit()
 
     rospy.init_node('read_odom', anonymous=True)
 
+    print("Starting up ROS node: read_odom\n")
+
     tstamp = time.strftime("%Y%m%d-%H%M%S")
 
-    myargv = rospy.myargv(argv=sys.argv)
-
-    if len(myargv) == 2:
-        if myargv[1] == "/tf":
-            sub = rospy.Subscriber("/tf", TFMessage, callback_number)
-        elif myargv[1] == "/odometry/filtered":
-            sub = rospy.Subscriber("/odometry/filtered", Odometry, callback_number)
-        elif myargv[1] == "/orb_slam2_rgbd/pose":
-            sub = rospy.Subscriber("/orb_slam2_rgbd/pose", PoseStamped, callback_number)
-        else:
-            rospy.loginfo("usage: TODO")
-            sys.exit()
-
+    # if len(myargv) == 2:
+    if myargv[1] == "TF":
+        sub = rospy.Subscriber("/tf", TFMessage, callback_number)
+    elif myargv[1] == "RTABMAP":
+        sub = rospy.Subscriber("/odometry/filtered", Odometry, callback_number)
+    elif myargv[1] == "ORB2":
+        sub = rospy.Subscriber("/orb_slam2_rgbd/pose", PoseStamped, callback_number)
     else:
-        rospy.loginfo("usage: TODO")
+        rospy.loginfo("Method " + myargv[1] + " not recognized.")
         sys.exit()
+
+    # else:
+    #     rospy.loginfo("usage: TODO")
+    #     sys.exit()
 
     rospy.spin()    
