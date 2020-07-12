@@ -21,6 +21,7 @@ struct PathLeafString
     }
 };
 
+// http://www.martinbroadhurst.com/list-the-files-in-a-directory-in-c.html
 void readDirectory(const std::string &name, StringVec &readList)
 {
     boost::filesystem::path p(name);
