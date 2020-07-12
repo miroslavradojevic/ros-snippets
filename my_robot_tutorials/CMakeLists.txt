@@ -11,8 +11,11 @@ find_package(catkin REQUIRED COMPONENTS
     roscpp
     rospy
     std_msgs
+    sensor_msgs
     std_srvs
     rospy_tutorials
+    pcl_ros
+    pcl_conversions
     my_robot_msgs
 )
 
@@ -143,6 +146,7 @@ add_executable(smartphone_node src/smartphone_node.cpp)
 add_executable(add_two_ints_server src/add_two_ints_server.cpp)
 add_executable(add_two_ints_client src/add_two_ints_client.cpp)
 add_executable(number_publisher src/number_publisher.cpp)
+add_executable(pcd_to_pointcloud src/pcd_to_pointcloud.cpp)
 
 
 ## Rename C++ executable without prefix
@@ -165,6 +169,7 @@ target_link_libraries(smartphone_node ${catkin_LIBRARIES})
 target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
 target_link_libraries(add_two_ints_client ${catkin_LIBRARIES})
 target_link_libraries(number_publisher ${catkin_LIBRARIES})
+target_link_libraries(pcd_to_pointcloud ${catkin_LIBRARIES})
 
 #############
 ## Install ##

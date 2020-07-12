@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- <arg name="my_arg" default=""/> -->
+    <!-- " $(arg my_arg) "" -->
+    <param name="/pcd_dir" type="string" value="/media/miro/WD/bag/InLiDa/Sequence6/" />
+    <param name="/freq" type="int" value="10" />
+    <node name="pcd_to_pointcloud_pub_node" pkg="my_robot_tutorials" type="pcd_to_pointcloud" output="screen"/>
+    <node pkg="rosbag" type="record" name="pointcloud_recorder" args="record -o sequence_6 /cloud_pcd"/>
+</launch>
+
