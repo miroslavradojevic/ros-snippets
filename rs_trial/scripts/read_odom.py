@@ -5,6 +5,7 @@ import time
 import sys
 from tf2_msgs.msg import TFMessage
 from nav_msgs.msg import Odometry
+from nav_msgs.msg import Path
 from geometry_msgs.msg import PoseStamped
 
 tstamp = ""
@@ -35,6 +36,13 @@ def callback_number(msg):
             msg.pose.pose.position.y, \
             msg.pose.pose.position.z)
 
+    elif msg._type == "nav_msgs/Path":
+        log_line = "{0}, {1:.3f}, {2:.3f}, {3:.3f}".format( \
+            msg.header.stamp.to_sec(), \
+            msg.poses[-1].pose.position.x, \
+            msg.poses[-1].pose.position.y, \
+            msg.poses[-1].pose.position.z)
+
     with open(myargv[1].replace("/", "_") + "_" + tstamp + ".csv", "a") as f:
         f.write(log_line + "\n")
 
@@ -46,7 +54,8 @@ if __name__ == '__main__':
 
     if len(myargv) != 2:
         print("Invalid number of arguments.\n" +
-              "Usage: rosrun rs_trial read_odom.py /topic method\n")
+              "Usage: rosrun rs_trial read_odom.py method\n" +
+              "method: RTABMAP, ORB2, FLOAM")
         sys.exit()
 
     rospy.init_node('read_odom', anonymous=True)
@@ -55,19 +64,22 @@ if __name__ == '__main__':
 
     tstamp = time.strftime("%Y%m%d-%H%M%S")
 
-    # if len(myargv) == 2:
     if myargv[1] == "TF":
         sub = rospy.Subscriber("/tf", TFMessage, callback_number)
     elif myargv[1] == "RTABMAP":
         sub = rospy.Subscriber("/odometry/filtered", Odometry, callback_number)
     elif myargv[1] == "ORB2":
         sub = rospy.Subscriber("/orb_slam2_rgbd/pose", PoseStamped, callback_number)
+    elif myargv[1] == "FLOAM":
+        sub = rospy.Subscriber("/aft_mapped/trajectory", Path, callback_number)
+    elif myargv[1] == "ALOAM":
+        sub = rospy.Subscriber("/aft_mapped_path", Path, callback_number)
+    elif myargv[1] == "ALOAM1":
+        sub = rospy.Subscriber("/odom", Odometry, callback_number)
+    elif myargv[1] == "KITTI_GT":
+        sub = rospy.Subscriber("/gt/trajectory", Path, callback_number)
     else:
         rospy.loginfo("Method " + myargv[1] + " not recognized.")
         sys.exit()
-
-    # else:
-    #     rospy.loginfo("usage: TODO")
-    #     sys.exit()
 
     rospy.spin()    
