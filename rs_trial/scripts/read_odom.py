@@ -75,9 +75,17 @@ if __name__ == '__main__':
     elif myargv[1] == "ALOAM":
         sub = rospy.Subscriber("/aft_mapped_path", Path, callback_number)
     elif myargv[1] == "ALOAM1":
-        sub = rospy.Subscriber("/odom", Odometry, callback_number)
+        sub = rospy.Subscriber("/aft_mapped_to_init", Odometry, callback_number)
+    elif myargv[1] == "ALOAM2":
+        sub = rospy.Subscriber("/laser_odom_to_init", Odometry, callback_number)
     elif myargv[1] == "KITTI_GT":
         sub = rospy.Subscriber("/gt/trajectory", Path, callback_number)
+    elif myargv[1] == "LOAM":
+        sub = rospy.Subscriber("/aft_mapped_to_init", Odometry, callback_number)
+    elif myargv[1] == "LOAM1":
+        sub = rospy.Subscriber("/laser_odom_to_init", Odometry, callback_number)
+    elif myargv[1] == "LOAM2":
+        sub = rospy.Subscriber("/integrated_to_init", Odometry, callback_number)
     else:
         rospy.loginfo("Method " + myargv[1] + " not recognized.")
         sys.exit()
