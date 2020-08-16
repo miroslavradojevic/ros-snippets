@@ -20,12 +20,14 @@ class ImageConverter:
         self.image_sub = rospy.Subscriber(topic_name, Image, self.callback)
 
     def callback(self, data):
-        fdir = "{:.3f}".format(data.header.stamp.to_sec())  # str(data.header.stamp.to_sec())
+        fdir = "{:d}".format(data.header.stamp.to_nsec())  # str(data.header.stamp.to_sec())
         fname = fdir + self.image_sub.name.replace("/", "_") + ".png"
         fname = os.path.join(fdir, fname)
 
-        if not os.path.exists(fdir):
-            os.makedirs(fdir)
+        # if not os.path.exists(fdir):
+        #     os.makedirs(fdir)
+
+        fname = "{:.2f}{:s}.jpg".format(data.header.stamp.to_sec(), self.image_sub.name.replace("/", "_"))
 
         try:
             frame = self.bridge.imgmsg_to_cv2(data, "passthrough")  # "bgr8" "mono16"
@@ -35,7 +37,7 @@ class ImageConverter:
         # print(cv_image.dtype, cv_image[0, 0].dtype)
 
         if len(frame.shape) == 3:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            # frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # Kitti05 sequence does not need conversion
             cv2.imwrite(fname, frame)
         else:
             # https://stackoverflow.com/questions/44606257/imwrite-16-bit-png-depth-image
@@ -53,11 +55,8 @@ if __name__ == '__main__':
         sys.exit(1)
 
     rospy.init_node('export_image', anonymous=True)
-
     print("Starting up ROS node: export_image\n")
-
     ic = ImageConverter(myargv[1])
-
     try:
         rospy.spin()
     except KeyboardInterrupt:
