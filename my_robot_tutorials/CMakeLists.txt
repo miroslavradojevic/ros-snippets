@@ -21,7 +21,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
-
+find_package(OpenCV REQUIRED)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
@@ -122,8 +122,8 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
     ${catkin_INCLUDE_DIRS}
+    ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -146,7 +146,8 @@ add_executable(smartphone_node src/smartphone_node.cpp)
 add_executable(add_two_ints_server src/add_two_ints_server.cpp)
 add_executable(add_two_ints_client src/add_two_ints_client.cpp)
 add_executable(number_publisher src/number_publisher.cpp)
-add_executable(pcd_to_pointcloud src/pcd_to_pointcloud.cpp)
+# add_executable(pcd_to_pointcloud src/pcd_to_pointcloud.cpp)
+add_executable(read_compressed src/read_compressed.cpp)
 
 
 ## Rename C++ executable without prefix
@@ -169,7 +170,9 @@ target_link_libraries(smartphone_node ${catkin_LIBRARIES})
 target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
 target_link_libraries(add_two_ints_client ${catkin_LIBRARIES})
 target_link_libraries(number_publisher ${catkin_LIBRARIES})
-target_link_libraries(pcd_to_pointcloud ${catkin_LIBRARIES})
+# target_link_libraries(pcd_to_pointcloud ${catkin_LIBRARIES})
+target_link_libraries(read_compressed ${catkin_LIBRARIES})
+target_link_libraries(read_compressed ${OpenCV_LIBS})
 
 #############
 ## Install ##
