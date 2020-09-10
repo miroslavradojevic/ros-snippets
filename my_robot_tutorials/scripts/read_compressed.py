@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 import rospy
+import sys
 import numpy as np
 import cv2
 from sensor_msgs.msg import CompressedImage
-from os.path import exists, isfile, islink, join, isdir
+from os.path import exists, isfile, islink, join, isdir, basename, splitext
 from os import mkdir, unlink, listdir
 import shutil
+
 
 def clear_dir(dir_path):
     for filename in listdir(dir_path):
@@ -21,24 +23,42 @@ def clear_dir(dir_path):
 
 def callback(ros_data):
     timestamp = ros_data.header.stamp.to_nsec()
-    # print("received image of type: {:s}".format(ros_data.format))
+    print("received image of type: {:s}".format(ros_data.format))
     np_arr = np.fromstring(ros_data.data, np.uint8)
     image_np = cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
-    fname = join(out_dir, str(timestamp) + ".jpg")
-    # print("{} {} {}".format(type(image_np), image_np.shape, fname))
+    print(type(image_np), image_np.shape)
+    fname = join(out_dir, "{}.{}".format(str(timestamp)[:10], str(timestamp)[10:]) + ".jpg")
     cv2.imwrite(fname, image_np)
+    print("{}".format(fname))
 
-out_dir = "camera_kodak_sp360_image_compressed"
+
+out_dir = "CompressedImage_output"
 
 if __name__ == '__main__':
-    rospy.init_node('compressed_image_reader', anonymous=True)
+    myargv = rospy.myargv(argv=sys.argv)
+
+    if len(myargv) != 2:
+        print("Usage: rosrun my_robot_tutorials {} /compressed_image_topic_name".format(basename(__file__)))
+        exit()
+
+    node_name = splitext(basename(__file__))[0]
+    rospy.init_node(node_name, anonymous=True)
+
+    print("Starting up node: " + rospy.get_name())
+
+    topic_name = myargv[1]
+    print("Subscribe to topic: " + topic_name)
+
+    out_dir = topic_name.replace("/", "_")
+    if len(out_dir) > 0:
+        out_dir = out_dir[1:]  # remove first char, originally "/" in topic names
 
     if not exists(out_dir):
         mkdir(out_dir)
     else:
         clear_dir(out_dir)
 
-    sub = rospy.Subscriber("/camera_kodak_sp360/image/compressed", CompressedImage, callback, queue_size=10)
+    sub = rospy.Subscriber(topic_name, CompressedImage, callback, queue_size=10)
 
     try:
         rospy.spin()
