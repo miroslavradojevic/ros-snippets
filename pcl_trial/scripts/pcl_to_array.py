@@ -130,8 +130,7 @@ if __name__ == '__main__':
     myargv = rospy.myargv(argv=sys.argv)
 
     if len(myargv) != 2:
-        print("Wrong arguments.")
-        print("Usage: rosrun pcl_trial {} /velodyne_points".format(__file__))
+        print("Usage: rosrun pcl_trial {} /velodyne_points_topic_name".format(__file__))
         exit()
 
     print("node_name = {}".format(__file__))
@@ -139,10 +138,7 @@ if __name__ == '__main__':
     print("node_name = {}".format(splitext(basename(__file__))[0]))
 
     node_name = splitext(basename(__file__))[0]  # "pcl_to_array"  # 'pcl_converter'
-    topic_name = myargv[1]
-
     rospy.init_node(node_name, anonymous=True)
-
     print("Starting up node: " + node_name + "\n")
 
     if not exists(out_dir):
@@ -152,10 +148,12 @@ if __name__ == '__main__':
 
     csv_file = open(join(out_dir, out_file), 'w')
 
+    topic_name = myargv[1]
+
     sub = rospy.Subscriber(topic_name, PointCloud2, callback)
 
     try:
         rospy.spin()
     except KeyboardInterrupt:
         csv_file.close()
-        rospy.loginfo("Exit now")
+        print("Shutting down PointCloud2 to array converter module")
